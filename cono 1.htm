@@ -1,0 +1,64 @@
+<!DOCTYPE html >
+    <html>
+    <head>
+    <meta charset = "utf-8"/>
+    <style>
+    body {
+        background - color: #ffffff;
+        margin: 0;
+        overflow: hidden;
+    } </style> </head>
+    <body>
+    <button>Aceptar</button>
+<!--- https://ajax.googleapis.com/ajax/libs/threejs/r76/three.min.js -->
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/three.js/95/three.min.js"> </script>
+<script>
+var camera, scene, renderer;
+var geometria, material, mesh;
+var clock;
+
+function init() {
+    renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth*0.99, window.innerHeight*0.99);
+    document.body.appendChild(renderer.domElement);
+    scene = new THREE.Scene();
+ 
+
+     const geometry = new THREE.ConeGeometry( 1, 1, 10 );// creacion del cono, dependiendo de los valores de, base, altura, lados
+	const material = new THREE.MeshStandardMaterial( {color: 0xFF5DA2} );// el material del que se va a hacer el cono
+	const cone = new THREE.Mesh( geometry, material);
+	scene.add( cone );
+	cone.position.set(0,0,0.5);// la posicion de cono en el plano x,y,z
+        cone.geometry.rotateX(1.6);// la rotacion sobre el eje X, para el cono 
+        cone.geometry.rotateZ(1.57);// la rotacion sobre el eje Z, para el cono
+	
+    const axesHelper = new THREE.AxesHelper(10);
+    scene.add(axesHelper);
+
+    camera = new THREE.PerspectiveCamera(32, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(-2,3, 8);
+    camera.lookAt(cone.position);
+    //clock = new THREE.Clock();
+    //window.addEventListener('resize', onWindowResize, false);
+
+    var light = new THREE.PointLight(0xFFFFFF);// creacion de un foco de luz para la visibilidad del material del cono
+    light.position.set(-2, 5, 5);// posicion de la luz
+    scene.add(light);
+
+}
+
+var dir = 1;
+
+function onWindowResize() {
+    windowHalfX = window.innerWidth / 2;
+    windowHalfY = window.innerHeight / 2;
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+init();
+renderer.render(scene, camera);
+</script>
+</body>
+</html>
